@@ -1,5 +1,6 @@
 package org.skypro.javatest.obj;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -19,7 +20,7 @@ public class Student {
     @JoinColumn(name = "faculty_id")
     private Faculty facultyStudent;
 
-    @OneToOne
+    @OneToOne(mappedBy = "student")
     private Avatar avatar;
 
     public Faculty getFacultyStudent() {
@@ -81,6 +82,18 @@ public class Student {
 
     public void setAge(int age) {
         this.age = age;
+    }
+
+    public void setFacultyStudent(Faculty facultyStudent) {
+        this.facultyStudent = facultyStudent;
+    }
+
+    public Avatar getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(Avatar avatar) {
+        this.avatar = avatar;
     }
 }
 

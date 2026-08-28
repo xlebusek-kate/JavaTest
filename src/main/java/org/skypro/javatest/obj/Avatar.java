@@ -15,6 +15,7 @@ public class Avatar {
     private byte[] data;
 
     @OneToOne
+    @JoinColumn(name = "student_id")
     private Student student;
 
     public Avatar() {

@@ -21,7 +21,6 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class StudentService {
 
     private final String avatarsDir = "./uploads/avatars";
-
     private final StudentRepository studentRepository;
     private final AvatarRepository avatarRepository;
 
@@ -50,12 +49,12 @@ public class StudentService {
         return studentRepository.findByAgeBetween(one, two);
     }
 
-    public Faculty getFaculty(long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(() -> new RuntimeException("Студент не найден")).getFacultyStudent();
+    public Optional<Faculty> getFacultyById(long idStudent) {
+        return studentRepository.findById(idStudent).flatMap(student-> Optional.ofNullable(student.getFacultyStudent()));
     }
 
     public Collection<Student> getStudentsOneFaculty(String nameFaculty) {
-        return studentRepository.findAllStudentsByFacultyStudentIgnoreCaseContains(nameFaculty);
+        return studentRepository.findByFacultyStudentNameIgnoreCaseContaining(nameFaculty);
     }
 
     public Avatar findAvatarById(Long id) {
@@ -85,6 +84,10 @@ public class StudentService {
         avatar.setData(file.getBytes());
 
         avatarRepository.save(avatar);
+    }
+
+    public void deleteAll(){
+        studentRepository.deleteAll();
     }
 }
 

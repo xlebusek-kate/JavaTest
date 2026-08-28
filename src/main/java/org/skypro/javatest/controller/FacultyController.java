@@ -24,32 +24,36 @@ public class FacultyController {
 
     @GetMapping("/info/{id}")
     public ResponseEntity<Optional<Faculty>> getFacultyInfo(@PathVariable Long id) {
-        Optional<Faculty> faculty = facultyService.findFaculty(id);
         if (facultyService.findFaculty(id).isEmpty()){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(facultyService.findFaculty(id));
     }
 
-    @GetMapping("/faculty")
+    @GetMapping("/faculties")
     public ResponseEntity<Collection<Faculty>> findFaculties(@RequestParam(required = false) String color) {
         if (color != null && !color.isBlank()) {
-            return ResponseEntity.status(HttpStatus.OK).build();
-        }
-        return ResponseEntity.ok(Collections.emptyList());
+            return ResponseEntity.status(HttpStatus.OK).body(facultyService.getAllFacultiesByColor(color));
+        }else return ResponseEntity.status(HttpStatus.OK).body(facultyService.getAllFaculties());
     }
 
     @GetMapping("/faculty-whit-param")
     public  ResponseEntity<Faculty> findFaculty(@RequestParam String name, @RequestParam String color){
+        if (name == null ||name.isBlank() || color== null ||color.isBlank()){
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.status(HttpStatus.OK).body(facultyService.findFaculty(name,color));
     }
 
-    @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.addFaculty(faculty);
+    @PostMapping("/creat")
+    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
+        if(faculty == null) {
+        ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(facultyService.addFaculty(faculty));
     }
 
-    @PutMapping
+    @PutMapping("/put")
     public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
         Faculty foundFaculty = facultyService.editFaculty(faculty);
         if (foundFaculty == null) {
@@ -60,6 +64,9 @@ public class FacultyController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteFaculty(@PathVariable Long id) {
+        if(facultyService.findFaculty(id).isEmpty()){
+            return ResponseEntity.badRequest().build();
+        }
         facultyService.deleteFaculty(id);
         return ResponseEntity.ok().build();
     }
