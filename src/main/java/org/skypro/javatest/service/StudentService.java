@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -46,12 +47,15 @@ public class StudentService {
         studentRepository.deleteById(id);
     }
 
-    public Collection<Student> findByAge(int one, int two) {
-        return studentRepository.findByAgeBetween(one, two);
+    public Collection<Student> findByAge(int min, int max) {
+        if (min <= max) {
+            return studentRepository.findByAgeBetween(min, max);
+        } else return Collections.emptyList();
     }
 
-    public Faculty getFaculty(long idStudent) {
-        return studentRepository.findById(idStudent).orElseThrow(() -> new RuntimeException("Студент не найден")).getFacultyStudent();
+    public Optional<Faculty> getFaculty(long idStudent) {
+        return studentRepository.findStudentById(idStudent).getFacultyStudent();
+
     }
 
     public Collection<Student> getStudentsOneFaculty(String nameFaculty) {
@@ -75,7 +79,8 @@ public class StudentService {
         try (InputStream is = file.getInputStream();
              OutputStream os = Files.newOutputStream(filePath, CREATE_NEW);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
-             BufferedOutputStream bos = new BufferedOutputStream(os, 1024)) {bis.transferTo(bos);
+             BufferedOutputStream bos = new BufferedOutputStream(os, 1024)) {
+            bis.transferTo(bos);
         }
 
         Avatar avatar = avatarRepository.findByStudentId(id).orElseGet(Avatar::new);

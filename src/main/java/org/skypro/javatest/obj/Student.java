@@ -3,6 +3,7 @@ package org.skypro.javatest.obj;
 import jakarta.persistence.*;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Entity
 
@@ -10,7 +11,7 @@ public class Student {
 
     @Id
     @GeneratedValue
-    private long id;
+    private Long id;
 
     private String name;
     private int age;
@@ -22,14 +23,14 @@ public class Student {
     @OneToOne
     private Avatar avatar;
 
-    public Faculty getFacultyStudent() {
-        return facultyStudent;
+    public Optional<Faculty> getFacultyStudent() {
+        return Optional.ofNullable(facultyStudent);
     }
 
     public Student() {
     }
 
-    public Student(long id, String name, int age) {
+    public Student(Long id, String name, int age) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -59,7 +60,7 @@ public class Student {
                 '}';
     }
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
