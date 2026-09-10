@@ -10,4 +10,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {
 
     Collection<Student> findAllStudentsByFacultyStudentIgnoreCaseContains(String nameFaculty);
 
+    Student findStudentById(long id);
+
 }
