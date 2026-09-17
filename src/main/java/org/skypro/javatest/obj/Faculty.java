@@ -1,12 +1,17 @@
 package org.skypro.javatest.obj;
 
-import jakarta.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+
 
 import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-
 public class Faculty {
 
     @Id
@@ -14,8 +19,8 @@ public class Faculty {
     private long id;
 
     private String name, color;
-
-    @OneToMany(mappedBy = "facultyStudent" )
+    @JsonIgnore
+    @OneToMany(mappedBy = "facultyStudent")
     Collection<Student> studentCollection;
 
     public Faculty() {
@@ -73,5 +78,13 @@ public class Faculty {
 
     public void setColor(String color) {
         this.color = color;
+    }
+
+    public Collection<Student> getStudentCollection() {
+        return studentCollection;
+    }
+
+    public void setStudentCollection(Collection<Student> studentCollection) {
+        this.studentCollection = studentCollection;
     }
 }
