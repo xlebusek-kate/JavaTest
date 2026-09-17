@@ -17,6 +17,7 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @RequestMapping("/student")
@@ -121,6 +122,24 @@ public class StudentController {
         }
         studentService.deleteStudent(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/all-student")
+    public ResponseEntity<Integer> getAllStudents(){
+        if (studentService.getAllStudents() == 0) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentService.getAllStudents());
+    }
+
+    @GetMapping("/average-age")
+    public ResponseEntity<Long> getAverageAge(){
+        return ResponseEntity.ok(studentService.getAverageAge());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Student>> getFiveStudentInTheEnd(){
+        if(studentService.getFiveStudentInTheEnd().isEmpty() || studentService.getFiveStudentInTheEnd().size() < 5)
+            ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentService.getFiveStudentInTheEnd());
     }
 
 

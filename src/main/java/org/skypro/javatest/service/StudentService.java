@@ -12,6 +12,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
@@ -88,6 +89,16 @@ public class StudentService {
 
     public void deleteAll(){
         studentRepository.deleteAll();
+    }
+
+    public int getAllStudents(){
+        return studentRepository.findAllStudent();
+    }
+    public long getAverageAge(){
+        return studentRepository.averageAge();
+    }
+    public List<Student> getFiveStudentInTheEnd(){
+        return studentRepository.findSomeStudent();
     }
 }
 
