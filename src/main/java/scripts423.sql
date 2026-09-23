@@ -1,0 +1,2 @@
+SELECT student.name , student.age, faculty.name from student INNER JOIN faculty on student.faculty_id = faculty.id;
+SELECT student.name from student inner join public.avatar a on student.id = a.student_id;
