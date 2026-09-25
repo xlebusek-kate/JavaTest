@@ -17,6 +17,6 @@ CREATE TABLE car
 CREATE TABLE people_car
 (
     people_id INTEGER REFERENCES people (id),
-    car_id    INTEGER REFERENCES car (id),
+    car_id    INTEGER REFERENCES car (id)
 )
 
