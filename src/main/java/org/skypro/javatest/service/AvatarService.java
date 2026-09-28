@@ -4,10 +4,12 @@ import org.skypro.javatest.obj.Avatar;
 import org.skypro.javatest.repository.AvatarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class AvatarService {
+
     @Autowired
     AvatarRepository avatarRepository;
 
