@@ -2,7 +2,6 @@ package org.skypro.javatest.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.skypro.javatest.obj.Avatar;
-import org.skypro.javatest.obj.Faculty;
 import org.skypro.javatest.obj.Student;
 import org.skypro.javatest.service.StudentService;
 
@@ -18,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
+
 
 @RestController
 @RequestMapping("/student")
@@ -125,23 +125,38 @@ public class StudentController {
     }
 
     @GetMapping("/all-student")
-    public ResponseEntity<Integer> getAllStudents(){
+    public ResponseEntity<Integer> getAllStudents() {
         if (studentService.getAllStudents() == 0) return ResponseEntity.notFound().build();
         return ResponseEntity.ok(studentService.getAllStudents());
     }
 
     @GetMapping("/average-age")
-    public ResponseEntity<Long> getAverageAge(){
+    public ResponseEntity<Long> getAverageAge() {
         return ResponseEntity.ok(studentService.getAverageAge());
     }
 
     @GetMapping
-    public ResponseEntity<List<Student>> getFiveStudentInTheEnd(){
-        if(studentService.getFiveStudentInTheEnd().isEmpty() || studentService.getFiveStudentInTheEnd().size() < 5)
+    public ResponseEntity<List<Student>> getFiveStudentInTheEnd() {
+        if (studentService.getFiveStudentInTheEnd().isEmpty() || studentService.getFiveStudentInTheEnd().size() < 5)
             ResponseEntity.notFound().build();
         return ResponseEntity.ok(studentService.getFiveStudentInTheEnd());
     }
 
+    @GetMapping("/students")
+    public ResponseEntity<List<String>> getStudentsStartingWithA() {
+        if (studentService.getStudentsStartingWithA().isEmpty()) return ResponseEntity.notFound().build();
+        return ResponseEntity.ok(studentService.getStudentsStartingWithA());
+    }
 
-}
+    @GetMapping("/average-age-students")
+    public ResponseEntity<Integer> getAverageAgeStudents() {
+        return ResponseEntity.ok(studentService.getAverageAgeStudents());
+    }
+
+    @GetMapping("/random-sum")
+    public ResponseEntity<Long> getLong(){
+       return ResponseEntity.ok(studentService.getLong());
+    }
+
+   }
 
