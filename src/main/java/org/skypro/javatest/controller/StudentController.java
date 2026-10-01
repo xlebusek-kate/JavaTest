@@ -154,9 +154,23 @@ public class StudentController {
     }
 
     @GetMapping("/random-sum")
-    public ResponseEntity<Long> getLong(){
-       return ResponseEntity.ok(studentService.getLong());
+    public ResponseEntity<Long> getLong() {
+        return ResponseEntity.ok(studentService.getLong());
     }
 
-   }
+    @GetMapping("/students/print-parallel")
+    public ResponseEntity<Void> getPrintParallel() {
+        studentService.getPrintParallel();
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/students/print-synchronized")
+    public ResponseEntity<Void> getPrintParallelSynchronized(){
+
+
+        return ResponseEntity.ok().build();
+    }
+
+}
+
 
