@@ -1,5 +1,6 @@
 package org.skypro.javatest;
 
+import org.skypro.javatest.service.StudentService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

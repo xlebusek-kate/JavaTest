@@ -13,10 +13,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
-import java.util.concurrent.Callable;
-import java.util.stream.Collectors;
 import java.util.stream.LongStream;
-import java.util.stream.Stream;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -183,5 +180,47 @@ public class StudentService {
                 .parallel()
                 .sum();
     }
+    public void getPrintParallel(){
+        List<Student> all = studentRepository.findAll();
+        new Thread(()->{
+            System.out.println(all.get(0));
+            System.out.println(all.get(1));
+        }).start();
+
+        new Thread(()->{
+            System.out.println(all.get(2));
+            System.out.println(all.get(3));
+        }).start();
+
+        new Thread(()->{
+            System.out.println(all.get(4));
+            System.out.println(all.get(5));
+        }).start();
+    }
+    int i = 0;
+
+    public synchronized void print(){
+        List<Student> all = studentRepository.findAll();
+        System.out.println(all.get(i));
+        i++;
+    }
+
+
+    public void getPrintParallelSynchronized(){
+        print();
+        print();
+
+        new Thread(()->{
+            print();
+            print();
+        }).start();
+
+        new Thread(()->{
+            print();
+            print();
+        }).start();
+    }
+
+
 }
 
