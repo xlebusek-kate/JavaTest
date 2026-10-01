@@ -12,9 +12,11 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.concurrent.Callable;
+import java.util.stream.Collectors;
+import java.util.stream.LongStream;
+import java.util.stream.Stream;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -147,6 +149,39 @@ public class StudentService {
         List<Student> students = studentRepository.findSomeStudent();
         log.info("Найдено {} студентов (последние)", students.size());
         return students;
+    }
+
+    public List<String> getStudentsStartingWithA(){
+       return studentRepository.findAll()
+                .stream()
+                .parallel()
+                .filter(i-> i.getName().toUpperCase().startsWith(String.valueOf('a').toUpperCase()))
+                .map(i-> i.getName().toUpperCase())
+                .sorted()
+                .toList();
+    }
+
+    public int getAverageAgeStudents(){
+       return (int) studentRepository.findAll()
+                .stream()
+                .parallel()
+                .mapToInt(Student::getAge)
+                .average()
+               .orElse(0);
+    }
+
+    public String getTheBestLongestFacultyName(){
+        return studentRepository.findAll()
+                .parallelStream()
+                .map(i-> i.getFacultyStudent().getName())
+                .max(Comparator.comparing(String::length))
+                .orElse("0");
+    }
+
+    public long getLong(){
+        return LongStream.rangeClosed(1,1000000)
+                .parallel()
+                .sum();
     }
 }
 
